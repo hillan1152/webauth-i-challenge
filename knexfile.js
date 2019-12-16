@@ -3,7 +3,7 @@ module.exports = {
     client: 'sqlite3',
     useNullAsDefault: true,
     connection: {
-      filename: './database/auth.db3',
+      filename: './database/webAuth.db3',
     },
     pool: {
       // SQLite will NOT enforce Foreign Keys
