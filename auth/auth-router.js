@@ -7,7 +7,6 @@ router.post('/register', (req, res) => {
 
     // HASH THE PASSWORD
     const hash = bcrypt.hashSync(user.password, 8);
-
     user.password = hash; 
 
     Users.add(user)
@@ -26,6 +25,7 @@ router.post('/login', (req, res) => {
         .first()
         .then(user => {
             if(user && bcrypt.compareSync(password, user.password)){
+                req.session.user = user;
                 res.status(200).json({ message: 'Logged in!'})
             } else {
                 res.status(401).json({ message: 'YOU SHALL NOT PASS!'})
@@ -34,6 +34,22 @@ router.post('/login', (req, res) => {
         .catch(error => {
             res.status(500).json(error);
           });
+});
+
+router.get('/logout', (req, res) => {
+    if(req.session){
+        req.session.destroy(err => {
+            if(err){
+                res.status(500).json({
+                    message: "You cannot leave."
+                })
+            } else {
+                res.status(200).json({ message: 'logged out'})
+            }
+        })
+    } else {
+        res.status(200).end();
+    }
 })
 
 module.exports = router;

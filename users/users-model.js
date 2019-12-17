@@ -20,18 +20,16 @@ function add(user){
 // FIND ID FOR REGISTRATION
 function findById(id){
     return db('users')
-        .select('id', 'username')
         .where({ id })
         .first();
 }
 
 function find() {
-    return db("users").select("id", "username", "password");
+    return db("users").select("id", "username");
   }
 
 // FIND USERS
 function findBy(filter){
     return db('users')
-        .select('id', 'username', 'password')
         .where(filter);
 }
